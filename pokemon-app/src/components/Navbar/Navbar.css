@@ -1,9 +1,9 @@
 nav {
-    background-color:  rgb(180, 180, 231);
-    color: white;
-    height: 65px;
+    background-color:  #333;
+    color: #F2F0E9;
+    height: 100px;
     font-weight: 600;
-    font-size: 30px;
+    font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

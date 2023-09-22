@@ -29,11 +29,12 @@
 
 .btn button {
   padding: 13px 32px;
-  background-color: hsl(284, 59%, 79%);
+  background-color: #333;
   border: none;
   box-shadow: 2px 8px 21px -2px #777777;
   border-radius: 5px;
-  color: white;
+  font-style: bold;
+  color: #F2F0E9;
   cursor: pointer;
   transition: all 0.3s;
 }
