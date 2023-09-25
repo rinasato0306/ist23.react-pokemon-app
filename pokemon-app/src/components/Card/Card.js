@@ -89,39 +89,38 @@ const Card = ({ pokemon }) => {
         </div>
         <h3 className="cardNames">{pokemonName}</h3>
       </div>
-      {isOpen && (
-        <div className="modal.vsible">
-          <div className="modal-inner">
-            <div className="modal-header"></div>
-            <div className="modal-introduction">
-              <div className="modalImg">
-                <img
-                  src={pokemon.sprites.other["official-artwork"].front_default}
-                  alt=""
-                />
+      <div className={`modal ${isOpen ? "visible" : ""}`} onClick={closeModal}>
+        <div className="modal-inner">
+          <div className="modal-header"></div>
+          <div className="modal-introduction">
+            <div className="modalImg">
+              <img
+                src={pokemon.sprites.other["official-artwork"].front_default}
+                alt=""
+              />
+            </div>
+            <h3 className="modalNames">{pokemonName}</h3>
+            <div className="modalTypes">
+              <span>タイプ：</span>
+              {pokemonTypeURL}
+            </div>
+            <div className="modalInfo">
+              <div className="modalData">
+                <p>重さ：{pokemon.weight / 10} kg</p>
               </div>
-              <h3 className="modalNames">{pokemonName}</h3>
-              <div className="modalTypes">
-                <span>タイプ：</span>
-                {pokemonTypeURL}
+              <div className="modalData">
+                <p>高さ：{pokemon.height / 10} m</p>
               </div>
-              <div className="modalInfo">
-                <div className="modalData">
-                  <p>重さ：{pokemon.weight / 10} kg</p>
-                </div>
-                <div className="modalData">
-                  <p>高さ：{pokemon.height / 10} m</p>
-                </div>
-                <div className="modalData">
-                  <p>能力：{pokemonAbility}</p>
-                </div>
+              <div className="modalData">
+                <p>能力：{pokemonAbility}</p>
               </div>
             </div>
-            <button className="modal-close-btn" onClick={closeModal}>
-              閉じる
-            </button>
           </div>
+          <button className="modal-close-btn" onClick={closeModal}>
+            閉じる
+          </button>
         </div>
+      </div>
       )}
     </div>
   );
