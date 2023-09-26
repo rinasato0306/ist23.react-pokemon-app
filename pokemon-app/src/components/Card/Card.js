@@ -57,7 +57,7 @@ const Card = ({ pokemon }) => {
             ).name;
             return jaName;
           } else {
-            return ""; // 能力情報が存在しない場合、空文字列を返す
+            return ""; // 能力情報が存在しない場合、デフォルト値を返す
           }
         })
       );
@@ -65,7 +65,7 @@ const Card = ({ pokemon }) => {
       setPokemonAbility(joinedAbilitys);
     } catch (error) {
       console.error("ポケモンの能力情報を取得できませんでした:", error);
-      setPokemonAbility("？？？"); // エラーが発生した場合も空欄で表示
+      setPokemonAbility("？？？"); // エラーが発生した場合もデフォルト値を表示
     }
   };
 
@@ -81,14 +81,14 @@ const Card = ({ pokemon }) => {
         if (jaName) {
           setPokemonName(jaName.name);
         } else {
-          setPokemonName("？？？"); // 名前情報が存在しない場合、空欄で表示
+          setPokemonName("？？？"); // 日本語の名前情報が存在しない場合、デフォルト値を表示
         }
       } else {
-        setPokemonName("？？？"); // 名前情報が存在しない場合、空欄で表示
+        setPokemonName("？？？"); // 名前情報が存在しない場合、デフォルト値を表示
       }
     } catch (error) {
       console.error("ポケモンの名前情報を取得できませんでした:", error);
-      setPokemonName("？？？"); // エラーが発生した場合も空欄で表示
+      setPokemonName("？？？"); // エラーが発生した場合もデフォルト値を表示
     }
   };
 
@@ -100,6 +100,7 @@ const Card = ({ pokemon }) => {
 
   console.log(pokemon);
 
+  //画像情報が存在しない場合のためのデフォルト値を定義　↓
   const defaultImageUrl =
     "https://www.pokemoncenter-online.com/static/product_image/4511546095659/4511546095659_01.jpg";
 
@@ -129,7 +130,7 @@ const Card = ({ pokemon }) => {
                   alt=""
                 />
               ) : (
-                <img src={defaultImageUrl} alt="デフォルト画像" />
+                <img src={defaultImageUrl} alt="デフォルト画像" /> //画像情報が存在しない場合はデフォルト画像を表示
               )}
             </div>
             <h3 className="modalNames">{pokemonName}</h3>
