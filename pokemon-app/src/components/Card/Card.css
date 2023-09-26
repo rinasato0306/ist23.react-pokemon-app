@@ -1,28 +1,126 @@
 .card {
-    color: #4a4a4a;
-    width: 290px;
-    height: 360px;
-    padding-top: 10px;
-    box-shadow: 2px 8px 21px -2px #777777;
-    border-radius: 10px;
+    box-shadow: 2px 3px 3px 3px rgba(68, 68, 68, 0.55);
+    position:relative;
+    width: clamp(260px, 25vw, 340px);
     background-color: rgb(255, 255, 255);
-}
-.cardName {
-    padding: 0;
-    font-size: 30px;
+    color: #333;
+    border-radius: 10px;
+    cursor: pointer;
+    padding-bottom: 15px;
+  }
+
+  .card:hover {
+    transform: translateY(5px);
+    box-shadow: none;
+  }
+
+  .cardNames {
+    font-size: 1.25rem;
+    font-family: fantasy;
     margin-bottom: 10px;
-    margin-top: 0;
+  }
+
+  img{
+    width:50%;
+    padding: 15px;
+  }
+
+
+
+@media screen and (max-width: 900px) {
+
+  .card {
+    width: clamp(200px, 40vw, 340px);
+  }
 }
 
-.cardTypes {
-    font-size: 15px;
-    text-align: center;
+@media screen and (max-width: 500px) {
+
+  .card {
+    width: 80%;
+  }
 }
 
-.cardInfo {
-    padding: 20px;
-    font-size: 15px;
-    text-align: left;
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
 }
 
+.modal.visible {
+  display: block;
+}
+
+.modal-inner {
+  position: absolute;
+  top: 8%;
+  right: 0;
+  left: 0;
+  width: 480px;
+  height: 650px;
+  padding-bottom: 60px;
+  margin: auto;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+.modal-header {
+  height: 8px;
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  background-image: url("https://s3-ap-northeast-1.amazonaws.com/progate/shared/images/lesson/react/modal_bar.svg");
+}
+
+.modal-introduction p {
+  color: #5876a3;
+  width: 384px;
+  line-height: 32px;
+  text-align: left;
+  margin: 20px auto 40px;
+}
+
+.modalNames {
+  color: #333;
+  font-size: 1.75rem;
+  font-family: fantasy;
+  margin-bottom: 10px;
+}
+
+.modalTypes {
+  color: #333;
+  font-size: 1.00rem;
+  font-family: fantasy;
+}
+
+.modalData p {
+  padding: 0 20px;
+  text-align: left;
+}
+
+.modalInfo {
+  margin: 10px 0 20px;
+}
+
+
+.modal-close-btn {
+  font-size: 13px;
+  color: #8491a5;
+  width: 200px;
+  padding: 16px 0;
+  border: 0;
+  background-color: #f0f4f9;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.modal-close-btn:hover {
+  color: #8491a5;
+  background-color: #ccd9ea;
+  transition: .3s ease-in-out;
+}
 
