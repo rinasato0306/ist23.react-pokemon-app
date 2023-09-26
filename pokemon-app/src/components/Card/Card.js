@@ -47,27 +47,49 @@ const Card = ({ pokemon }) => {
   });
 
   const loadPokemonAbility = async (data) => {
-    let _pokemonAbility = await Promise.all(
-      data.map(async (pokemon) => {
-        let pokemonAbilityDetail = await getPokemonAbility(pokemon);
-        let jaName = pokemonAbilityDetail.names.find(
-          (name) => name.language.name === "ja"
-        ).name;
-        return jaName;
-      })
-    );
-    let joinedAbilitys = _pokemonAbility.join(" / ");
-    setPokemonAbility(joinedAbilitys);
+    try {
+      let _pokemonAbility = await Promise.all(
+        data.map(async (pokemon) => {
+          let pokemonAbilityDetail = await getPokemonAbility(pokemon);
+          if (pokemonAbilityDetail) {
+            let jaName = pokemonAbilityDetail.names.find(
+              (name) => name.language.name === "ja"
+            ).name;
+            return jaName;
+          } else {
+            return ""; // 能力情報が存在しない場合、空文字列を返す
+          }
+        })
+      );
+      let joinedAbilitys = _pokemonAbility.join(" / ");
+      setPokemonAbility(joinedAbilitys);
+    } catch (error) {
+      console.error("ポケモンの能力情報を取得できませんでした:", error);
+      setPokemonAbility("？？？"); // エラーが発生した場合も空欄で表示
+    }
   };
 
   // ポケモンの名前を日本語として出力する関数　↓
   let pokemonNameDetail = pokemon.species.url;
 
   const loadPokemonName = async (data) => {
-    let response = await fetch(data);
-    let result = await response.json();
-    let jaName = result.names.find((name) => name.language.name === "ja").name;
-    setPokemonName(jaName);
+    try {
+      let response = await fetch(data);
+      let result = await response.json();
+      if (result.names) {
+        let jaName = result.names.find((name) => name.language.name === "ja");
+        if (jaName) {
+          setPokemonName(jaName.name);
+        } else {
+          setPokemonName("？？？"); // 名前情報が存在しない場合、空欄で表示
+        }
+      } else {
+        setPokemonName("？？？"); // 名前情報が存在しない場合、空欄で表示
+      }
+    } catch (error) {
+      console.error("ポケモンの名前情報を取得できませんでした:", error);
+      setPokemonName("？？？"); // エラーが発生した場合も空欄で表示
+    }
   };
 
   useEffect(() => {
@@ -78,14 +100,21 @@ const Card = ({ pokemon }) => {
 
   console.log(pokemon);
 
+  const defaultImageUrl =
+    "https://www.pokemoncenter-online.com/static/product_image/4511546095659/4511546095659_01.jpg";
+
   return (
     <div>
       <div onClick={openModal} className="card">
         <div className="cardImg">
-          <img
-            src={pokemon.sprites.other["official-artwork"].front_default}
-            alt=""
-          />
+          {pokemon.sprites.other["official-artwork"].front_default ? (
+            <img
+              src={pokemon.sprites.other["official-artwork"].front_default}
+              alt=""
+            />
+          ) : (
+            <img src={defaultImageUrl} alt="デフォルト画像" />
+          )}
         </div>
         <h3 className="cardNames">{pokemonName}</h3>
       </div>
@@ -94,10 +123,14 @@ const Card = ({ pokemon }) => {
           <div className="modal-header"></div>
           <div className="modal-introduction">
             <div className="modalImg">
-              <img
-                src={pokemon.sprites.other["official-artwork"].front_default}
-                alt=""
-              />
+              {pokemon.sprites.other["official-artwork"].front_default ? (
+                <img
+                  src={pokemon.sprites.other["official-artwork"].front_default}
+                  alt=""
+                />
+              ) : (
+                <img src={defaultImageUrl} alt="デフォルト画像" />
+              )}
             </div>
             <h3 className="modalNames">{pokemonName}</h3>
             <div className="modalTypes">

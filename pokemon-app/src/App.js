@@ -35,6 +35,7 @@ function App() {
   };
 
   const handleNextPage = async () => {
+    if (!nextURL) return;
     setLoading(true);
     let data = await getAllPokemon(nextURL);
     await loadPokemon(data.results);
@@ -59,7 +60,7 @@ function App() {
       <div className="App">
         {loading ? (
           <>
-            <h1>Now loading・・・</h1>
+            <h1>ロード中・・・</h1>
           </>
         ) : (
           <>
@@ -70,10 +71,14 @@ function App() {
             </div>
             <div className="btn-container">
               <div className="btn">
-                <button onClick={handlePrevPage}>前へ</button>
+                <button onClick={handlePrevPage} disabled={!prevURL}>
+                  前へ
+                </button>
               </div>
               <div className="btn">
-                <button onClick={handleNextPage}>次へ</button>
+                <button onClick={handleNextPage} disabled={!nextURL}>
+                  次へ
+                </button>
               </div>
             </div>
           </>
