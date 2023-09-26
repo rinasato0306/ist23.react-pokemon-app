@@ -15,7 +15,7 @@
   margin-right: 60px;
 }
 
-.btn {
+.btn-container {
   padding: 30px 0;
   display: flex;
   justify-content: center;
@@ -23,20 +23,28 @@
   gap: 20px;
 }
 
+.btn {
+  position: relative;
+  text-align: center;
+}
+
 .btn button {
-  padding: 13px 32px;
-  background-color: #333;
-  border: none;
-  box-shadow: 2px 8px 21px -2px #777777;
-  border-radius: 5px;
-  font-style: bold;
-  color: #F2F0E9;
+  padding: 10px 30px;
+  background-color: transparent;
+  border: 2px solid #333;
+  border-radius: 25px;
+  color: #333;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
 .btn button:hover {
-  transform: translateY(5px);
-  box-shadow: none;
+  background-color: #333;
+  color: #fff;
+  transform: translateY(4px); /* ホバー時に下に押し込まれる感じにする */
+}
+
+.btn button:active {
+  transform: translateY(4px); /* クリック時にも下に押し込まれる感じを維持 */
 }
 
