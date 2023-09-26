@@ -121,7 +121,6 @@ const Card = ({ pokemon }) => {
           </button>
         </div>
       </div>
-      )}
     </div>
   );
 };

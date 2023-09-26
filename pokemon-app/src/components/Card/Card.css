@@ -6,7 +6,7 @@
     color: #333;
     border-radius: 10px;
     cursor: pointer;
-    padding: 20px;
+    padding-bottom: 15px;
   }
 
   .card:hover {
@@ -22,7 +22,7 @@
 
   img{
     width:50%;
-    padding: 12px;
+    padding: 15px;
   }
 
 
@@ -62,6 +62,7 @@
   right: 0;
   left: 0;
   width: 480px;
+  height: 650px;
   padding-bottom: 60px;
   margin: auto;
   background-color: rgb(255, 255, 255);
@@ -71,7 +72,6 @@
 .modal-header {
   height: 8px;
   width: 100%;
-  margin-bottom: 60px;
   border-radius: 8px 8px 0 0;
   background-image: url("https://s3-ap-northeast-1.amazonaws.com/progate/shared/images/lesson/react/modal_bar.svg");
 }
@@ -81,7 +81,7 @@
   width: 384px;
   line-height: 32px;
   text-align: left;
-  margin: 36px auto 40px;
+  margin: 20px auto 40px;
 }
 
 .modalNames {
@@ -95,18 +95,15 @@
   color: #333;
   font-size: 1.00rem;
   font-family: fantasy;
-  margin-bottom: 10px;
 }
 
 .modalData p {
   padding: 0 20px;
   text-align: left;
-  font-size: 18px;
 }
 
 .modalInfo {
-  margin: 12px 0 20px;
-  font-size: 18px;
+  margin: 10px 0 20px;
 }
 
 
