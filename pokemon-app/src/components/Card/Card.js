@@ -82,9 +82,11 @@ const Card = ({ pokemon }) => {
           setPokemonName(jaName.name);
         } else {
           setPokemonName("？？？"); // 日本語の名前情報が存在しない場合、デフォルト値を表示
+          console.error("ポケモンの名前情報を取得できませんでした:");
         }
       } else {
         setPokemonName("？？？"); // 名前情報が存在しない場合、デフォルト値を表示
+        console.error("ポケモンの名前情報を取得できませんでした:");
       }
     } catch (error) {
       console.error("ポケモンの名前情報を取得できませんでした:", error);
