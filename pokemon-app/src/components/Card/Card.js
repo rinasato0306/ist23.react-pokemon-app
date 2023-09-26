@@ -57,7 +57,7 @@ const Card = ({ pokemon }) => {
             ).name;
             return jaName;
           } else {
-            return ""; // 能力情報が存在しない場合、デフォルト値を返す
+            return "？？？"; // 能力情報が存在しない場合、デフォルト値を返す
           }
         })
       );
