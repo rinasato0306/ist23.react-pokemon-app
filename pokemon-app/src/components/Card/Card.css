@@ -68,6 +68,8 @@
 }
 
 .modal-inner {
+  overflow-y: auto; /* モーダル内のコンテンツがスクロール可能に */
+  max-height: 80vh; /* モーダルの高さを画面の80%までに制限 */
   position: absolute;
   top: 8%;
   right: 0;
@@ -88,6 +90,8 @@
 }
 
 .modal-introduction p {
+  max-height: calc(80vh - 100px); /* モーダルの高さからヘッダー分を引いた高さまでスクロール可能に */
+  overflow-y: auto; /* コンテンツが高さを超える場合にスクロールバーを表示 */
   color: #5876a3;
   width: 384px;
   line-height: 32px;
