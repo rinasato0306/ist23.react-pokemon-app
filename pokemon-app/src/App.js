@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { getAllPokemon, getPokemon } from './utils/pokemon';
-import Card from './components/Card/Card';
-import Navbar from './components/Navbar/Navbar';
+import { useEffect, useState } from "react";
+import "./App.css";
+import { getAllPokemon, getPokemon } from "./utils/pokemon";
+import Card from "./components/Card/Card";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const initialURL = "https://pokeapi.co/api/v2/pokemon";
@@ -33,8 +33,9 @@ function App() {
     );
     setPokemonData(_pokemonData);
   };
-  
+
   const handleNextPage = async () => {
+    if (!nextURL) return;
     setLoading(true);
     let data = await getAllPokemon(nextURL);
     await loadPokemon(data.results);
@@ -55,27 +56,34 @@ function App() {
 
   return (
     <>
-    <Navbar />
-    <div className="App">
-      {loading ? (
-        <>
-         <h1>Now loading・・・</h1>
-         </>
-       
-      ) : (
-        <>
-          <div className="pokemonCardContainer">
-            {pokemonData.map((pokemon, i) => {
-              return <Card key={i} pokemon={pokemon} />;
-            })}
-          </div>
-          <div className='btn'>
-            <button onClick={handlePrevPage}>前へ</button>
-            <button onClick={handleNextPage}>次へ</button>
-          </div>
-        </>
-      )}
-    </div>
+      <Navbar />
+      <div className="App">
+        {loading ? (
+          <>
+            <h1>ロード中・・・</h1>
+          </>
+        ) : (
+          <>
+            <div className="pokemonCardContainer">
+              {pokemonData.map((pokemon, i) => {
+                return <Card key={i} pokemon={pokemon} />;
+              })}
+            </div>
+            <div className="btn-container">
+              <div className="btn">
+                <button onClick={handlePrevPage} disabled={!prevURL}>
+                  前へ
+                </button>
+              </div>
+              <div className="btn">
+                <button onClick={handleNextPage} disabled={!nextURL}>
+                  次へ
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }

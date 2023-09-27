@@ -1,5 +1,5 @@
 import "./Card.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   getPokemonAbility,
   getPokemonName,
@@ -11,6 +11,8 @@ const Card = ({ pokemon }) => {
   const [pokemonName, setPokemonName] = useState([]);
   const [pokemonAbility, setPokemonAbility] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const modalRef = useRef(null);
 
   const openModal = () => {
     setIsOpen(true);
@@ -47,27 +49,51 @@ const Card = ({ pokemon }) => {
   });
 
   const loadPokemonAbility = async (data) => {
-    let _pokemonAbility = await Promise.all(
-      data.map(async (pokemon) => {
-        let pokemonAbilityDetail = await getPokemonAbility(pokemon);
-        let jaName = pokemonAbilityDetail.names.find(
-          (name) => name.language.name === "ja"
-        ).name;
-        return jaName;
-      })
-    );
-    let joinedAbilitys = _pokemonAbility.join(" / ");
-    setPokemonAbility(joinedAbilitys);
+    try {
+      let _pokemonAbility = await Promise.all(
+        data.map(async (pokemon) => {
+          let pokemonAbilityDetail = await getPokemonAbility(pokemon);
+          if (pokemonAbilityDetail) {
+            let jaName = pokemonAbilityDetail.names.find(
+              (name) => name.language.name === "ja"
+            ).name;
+            return jaName;
+          } else {
+            return "？？？"; // 能力情報が存在しない場合、デフォルト値を返す
+          }
+        })
+      );
+      let joinedAbilitys = _pokemonAbility.join(" / ");
+      setPokemonAbility(joinedAbilitys);
+    } catch (error) {
+      console.error("ポケモンの能力情報を取得できませんでした:", error);
+      setPokemonAbility("？？？"); // エラーが発生した場合もデフォルト値を表示
+    }
   };
 
   // ポケモンの名前を日本語として出力する関数　↓
   let pokemonNameDetail = pokemon.species.url;
 
   const loadPokemonName = async (data) => {
-    let response = await fetch(data);
-    let result = await response.json();
-    let jaName = result.names.find((name) => name.language.name === "ja").name;
-    setPokemonName(jaName);
+    try {
+      let response = await fetch(data);
+      let result = await response.json();
+      if (result.names) {
+        let jaName = result.names.find((name) => name.language.name === "ja");
+        if (jaName) {
+          setPokemonName(jaName.name);
+        } else {
+          setPokemonName("？？？"); // 日本語の名前情報が存在しない場合、デフォルト値を表示
+          console.error("ポケモンの名前情報を取得できませんでした:");
+        }
+      } else {
+        setPokemonName("？？？"); // 名前情報が存在しない場合、デフォルト値を表示
+        console.error("ポケモンの名前情報を取得できませんでした:");
+      }
+    } catch (error) {
+      console.error("ポケモンの名前情報を取得できませんでした:", error);
+      setPokemonName("？？？"); // エラーが発生した場合もデフォルト値を表示
+    }
   };
 
   useEffect(() => {
@@ -78,26 +104,62 @@ const Card = ({ pokemon }) => {
 
   console.log(pokemon);
 
+  //画像情報が存在しない場合のためのデフォルト値を定義　↓
+  const defaultImageUrl =
+    "https://www.pokemoncenter-online.com/static/product_image/4511546095659/4511546095659_01.jpg";
+
+  //モーダル外をクリックした場合にモーダルを閉じる
+  const handleOutsideClick = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeModal();
+    }
+  };
+
+  //モーダル内の要素（ボタン以外）をクリックしてもモーダルが閉じない
+  const handleInsideClick = (event) => {
+    event.stopPropagation(); //親要素にクリックイベントを伝播させない
+  };
+
+  //isOpenがtrueの場合はモーダル外をクリックして閉じるイベントリスナーを追加、falseの場合はイベントリスナーが削除される
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen]);
+
   return (
     <div>
       <div onClick={openModal} className="card">
         <div className="cardImg">
-          <img
-            src={pokemon.sprites.other["official-artwork"].front_default}
-            alt=""
-          />
+          {pokemon.sprites.other["official-artwork"].front_default ? (
+            <img
+              src={pokemon.sprites.other["official-artwork"].front_default}
+              alt=""
+            />
+          ) : (
+            <img src={defaultImageUrl} alt="デフォルト画像" />
+          )}
         </div>
         <h3 className="cardNames">{pokemonName}</h3>
       </div>
       <div className={`modal ${isOpen ? "visible" : ""}`} onClick={closeModal}>
-        <div className="modal-inner">
+        <div className="modal-inner" ref={modalRef} onClick={handleInsideClick}>
           <div className="modal-header"></div>
           <div className="modal-introduction">
             <div className="modalImg">
-              <img
-                src={pokemon.sprites.other["official-artwork"].front_default}
-                alt=""
-              />
+              {pokemon.sprites.other["official-artwork"].front_default ? (
+                <img
+                  src={pokemon.sprites.other["official-artwork"].front_default}
+                  alt=""
+                />
+              ) : (
+                <img src={defaultImageUrl} alt="デフォルト画像" /> //画像情報が存在しない場合はデフォルト画像を表示
+              )}
             </div>
             <h3 className="modalNames">{pokemonName}</h3>
             <div className="modalTypes">
