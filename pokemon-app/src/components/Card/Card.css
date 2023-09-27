@@ -25,7 +25,18 @@
     padding: 15px;
   }
 
+@media screen and (max-width: 959px) {
+  .pokemonCardContainer {
+    grid-template-columns: auto auto; /* 3列に調整 */
+  }
+}
 
+@media screen and (max-width: 639px) {
+  .pokemonCardContainer {
+    grid-template-columns: auto; /* 2列に調整 */
+  }
+}
+  
 
 @media screen and (max-width: 900px) {
 
