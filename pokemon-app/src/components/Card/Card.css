@@ -22,7 +22,8 @@
 
   img{
     width:50%;
-    padding: 15px;
+    padding-top: 30px;
+    padding-bottom: 10px;
   }
 
 @media screen and (max-width: 959px) {
@@ -68,15 +69,13 @@
 }
 
 .modal-inner {
-  overflow-y: auto; /* モーダル内のコンテンツがスクロール可能に */
-  max-height: 80vh; /* モーダルの高さを画面の80%までに制限 */
   position: absolute;
   top: 8%;
   right: 0;
   left: 0;
   width: 480px;
-  height: 650px;
-  padding-bottom: 60px;
+  height: auto;
+  padding-bottom: 45px;
   margin: auto;
   background-color: rgb(255, 255, 255);
   border-radius: 8px;
@@ -90,13 +89,11 @@
 }
 
 .modal-introduction p {
-  max-height: calc(80vh - 100px); /* モーダルの高さからヘッダー分を引いた高さまでスクロール可能に */
-  overflow-y: auto; /* コンテンツが高さを超える場合にスクロールバーを表示 */
   color: #5876a3;
   width: 384px;
   line-height: 32px;
   text-align: left;
-  margin: 20px auto 40px;
+  margin: 20px auto 30px;
 }
 
 .modalNames {
