@@ -1,5 +1,5 @@
 import "./Card.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   getPokemonAbility,
   getPokemonName,
@@ -11,6 +11,8 @@ const Card = ({ pokemon }) => {
   const [pokemonName, setPokemonName] = useState([]);
   const [pokemonAbility, setPokemonAbility] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const modalRef = useRef(null);
 
   const openModal = () => {
     setIsOpen(true);
@@ -106,6 +108,30 @@ const Card = ({ pokemon }) => {
   const defaultImageUrl =
     "https://www.pokemoncenter-online.com/static/product_image/4511546095659/4511546095659_01.jpg";
 
+  //モーダル外をクリックした場合にモーダルを閉じる
+  const handleOutsideClick = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeModal();
+    }
+  };
+
+  //モーダル内の要素（ボタン以外）をクリックしてもモーダルが閉じない
+  const handleInsideClick = (event) => {
+    event.stopPropagation(); //親要素にクリックイベントを伝播させない
+  };
+
+  //isOpenがtrueの場合はモーダル外をクリックして閉じるイベントリスナーを追加、falseの場合はイベントリスナーが削除される
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen]);
+
   return (
     <div>
       <div onClick={openModal} className="card">
@@ -122,7 +148,7 @@ const Card = ({ pokemon }) => {
         <h3 className="cardNames">{pokemonName}</h3>
       </div>
       <div className={`modal ${isOpen ? "visible" : ""}`} onClick={closeModal}>
-        <div className="modal-inner">
+        <div className="modal-inner" ref={modalRef} onClick={handleInsideClick}>
           <div className="modal-header"></div>
           <div className="modal-introduction">
             <div className="modalImg">
